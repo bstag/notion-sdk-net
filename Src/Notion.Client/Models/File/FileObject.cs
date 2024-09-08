@@ -15,7 +15,6 @@ namespace Notion.Client
         [JsonProperty("name")]
         public string Name { get; set; }
 
-
         [JsonProperty("type")]
         public virtual string Type { get; set; }
     }

@@ -39,7 +39,7 @@ public class PagesClientTests : ApiTestBase
         page.Id.Should().Be(pageId);
         page.Parent.Type.Should().Be(ParentType.DatabaseId);
         ((DatabaseParent)page.Parent).DatabaseId.Should().Be("48f8fee9-cd79-4180-bc2f-ec0398253067");
-        page.IsArchived.Should().BeFalse();
+        page.InTrash.Should().BeFalse();
     }
 
     [Fact]
@@ -72,7 +72,7 @@ public class PagesClientTests : ApiTestBase
         page.Url.Should().NotBeNullOrEmpty();
         page.Properties.Should().HaveCount(1);
         page.Properties.First().Key.Should().Be("Name");
-        page.IsArchived.Should().BeFalse();
+        page.InTrash.Should().BeFalse();
         page.Parent.Should().NotBeNull();
         ((DatabaseParent)page.Parent).DatabaseId.Should().Be("3c357473-a281-49a4-88c0-10d2b245a589");
     }
@@ -172,7 +172,7 @@ public class PagesClientTests : ApiTestBase
         var page = await _client.UpdateAsync(pageId, pagesUpdateParameters);
 
         page.Id.Should().Be(pageId);
-        page.IsArchived.Should().BeFalse();
+        page.InTrash.Should().BeFalse();
         page.Properties.Should().HaveCount(2);
         var updatedProperty = page.Properties.First(x => x.Key == "In stock");
 
@@ -211,7 +211,7 @@ public class PagesClientTests : ApiTestBase
 
         var pagesUpdateParameters = new PagesUpdateParameters
         {
-            Archived = true,
+            InTrash = true,
             Properties = new Dictionary<string, PropertyValue>
             {
                 { "In stock", new CheckboxPropertyValue { Checkbox = true } }
@@ -221,7 +221,7 @@ public class PagesClientTests : ApiTestBase
         var page = await _client.UpdateAsync(pageId, pagesUpdateParameters);
 
         page.Id.Should().Be(pageId);
-        page.IsArchived.Should().BeTrue();
+        page.InTrash.Should().BeTrue();
         page.Properties.Should().HaveCount(2);
         var updatedProperty = page.Properties.First(x => x.Key == "In stock");
 
